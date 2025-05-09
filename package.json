@@ -1,0 +1,20 @@
+{
+  "name": "graphtracks-client",
+  "version": "1.0.0",
+  "description": "graphtracks-client",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17"
+  }
+}

@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: GraphTracks Analytics API
+  version: 0.1.0
+  description: Analytics API for GraphTracks
+
+tags:
+  - name: GraphTracksAnalytics
+    description: Operations related to the GraphTracks Analytics API
+
+servers:
+  - url: https://api.graphtracks.com
+paths:
+  /v1/api/networks/{network}/accounts/{account_id}/stats/{metric}:
+    get:
+      tags:
+        - GraphTracksAnalytics
+      operationId: getGlobalStatsForAccountAPI
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: network
+          in: path
+          required: true
+          description: The network to get stats for
+          schema:
+            $ref: "#/components/schemas/network"
+        - name: account_id
+          in: path
+          required: true
+          description: The account id to get stats for
+          schema:
+            $ref: "#/components/schemas/account_id"
+        - name: metric
+          in: path
+          required: true
+          description: The metric to get stats for
+          schema:
+            $ref: "#/components/schemas/metric"
+        - name: timeframe
+          in: query
+          required: false
+          description: The timeframe to get stats for
+          schema:
+            $ref: "#/components/schemas/timeframe"
+        - name: from
+          in: query
+          required: true
+          description: The start date of the timeframe
+          schema:
+            $ref: "#/components/schemas/from"
+        - name: to
+          in: query
+          required: false
+          description: The end date of the timeframe
+          schema:
+            $ref: "#/components/schemas/from"        
+        - name: bucket
+          in: query
+          required: false
+          description: bucket size. Interval in seconds between data points
+          schema:
+            type: string
+            example: 3600
+
+      summary: Get global stats for an account
+      description: Get global stats for an account. Authentication can be via JWT or an X-API-Key header.
+      responses:
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          description: Forbidden - API Key valid but not authorized for this account or resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "500":
+          description: Internal server error
+        "400":
+          description: Bad request
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/stats"
+components:
+  responses:
+    default:
+      description: Unhandled error
+      content:
+        application/json:
+          schema:
+            type: string
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: string
+            properties:
+              error:
+                type: string
+                enum:
+                  - "Internal server error"
+
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: string
+            properties:
+              error:
+                type: string
+                enum:
+                  - "Unauthorized"
+  schemas:
+    stats:
+      type: array
+      items:
+        properties:
+          time:
+            type: string
+            format: date-time
+            description: The timestamp for this data point
+          value:
+            type: number
+            description: The numeric value for this data point
+        required:
+          - time
+          - value
+    metric:
+      type: string
+      description: The metric to get stats for
+      enum:
+        - followers
+        - likes
+        - replies
+        - reposts
+    timeframe:
+      type: string
+      description: The timeframe to get stats for
+      enum:
+        - 1h
+        - 1d
+        - 7d
+        - 30d
+        - 90d
+        - all
+    account_id:
+      type: string
+      description: The account id
+    from:
+      type: string
+      description: The start date of the timeframe. Expects a datetime of the post. UTC timezone.
+      format: date-time
+    network:
+      type: string
+      enum:
+        - BlueSky
+
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: "API Key for authenticating requests to API-tagged endpoints."
+
+security:
+  - apiKeyAuth: []
