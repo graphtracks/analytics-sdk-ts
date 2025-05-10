@@ -10,13 +10,22 @@ Running [example](./example/index.ts):
 ```bash
 
 export GRAPHTRACKS_API_KEY=gt_blahblah
-npx ts-node example/index.ts did:plc:a4pqq234yw7fqbddawjo7y35 
+npx ts-node example/index.ts did:plc:1123123123123sdf3434d344
 ```
 will output
 
 ```
-npx ts-node example/index.ts did:plc:a4pqq234yw7fqbddawjo7y35
+[
+  { event_time: '2025-05-01 00:00:00', count: '693' },
+  { event_time: '2025-05-02 00:00:00', count: '926' },
+  { event_time: '2025-05-03 00:00:00', count: '1013' },
+  { event_time: '2025-05-04 00:00:00', count: '644' },
+  { event_time: '2025-05-05 00:00:00', count: '782' },
+  { event_time: '2025-05-06 00:00:00', count: '633' },
+  { event_time: '2025-05-07 00:00:00', count: '647' }
+]
 ```
+
 
 
 
