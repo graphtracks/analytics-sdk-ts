@@ -16,7 +16,7 @@ describe("Account Stats Integration Tests", () => {
 		console.log("Test setup:", {
 			apiKey: process.env.GRAPHTRACKS_API_KEY ? "SET" : "NOT_SET",
 			validAccount,
-			basePath: config.basePath
+			basePath: config.basePath,
 		});
 	});
 
@@ -26,7 +26,7 @@ describe("Account Stats Integration Tests", () => {
 		const network = Network.BlueSky;
 		const metrics = [Metric.Followers];
 		const from = new Date();
-        const bucket = 3600;
+		const bucket = 3600;
 		from.setUTCDate(from.getUTCDate() - 30);
 
 		try {
@@ -43,7 +43,9 @@ describe("Account Stats Integration Tests", () => {
 			expect(response.data).toBeDefined();
 			expect(Array.isArray(response.data)).toBe(true);
 			if (response.data.length > 0) {
-				expect(response.data.some((point: any) => point.value !== 0)).toBe(true);
+				expect(response.data.some((point: any) => point.value !== 0)).toBe(
+					true,
+				);
 			}
 		} catch (error: any) {
 			console.error("Error details:", {
@@ -51,7 +53,7 @@ describe("Account Stats Integration Tests", () => {
 				statusText: error.response?.statusText,
 				data: error.response?.data,
 				message: error.message,
-				config: error.config
+				config: error.config,
 			});
 			throw error;
 		}
@@ -84,7 +86,7 @@ describe("Account Stats Integration Tests", () => {
 			Metric.Replies,
 			Metric.Reposts,
 		];
-        const bucket = 3600;
+		const bucket = 3600;
 
 		for (const metric of metrics) {
 			try {
@@ -93,7 +95,7 @@ describe("Account Stats Integration Tests", () => {
 					network: network,
 					metric: metric,
 					timeframe,
-                    bucket: bucket.toString(),
+					bucket: bucket.toString(),
 				});
 
 				expect(response).toBeDefined();
@@ -101,13 +103,15 @@ describe("Account Stats Integration Tests", () => {
 				expect(Array.isArray(response.data)).toBe(true);
 				expect(response.data.length).toBeGreaterThan(0);
 				if (response.data.length > 0) {
-					expect(response.data.some((point: any) => point.value !== 0)).toBe(true);
+					expect(response.data.some((point: any) => point.value !== 0)).toBe(
+						true,
+					);
 				}
 			} catch (error: any) {
 				console.error(`Error for ${metric}:`, {
 					status: error.response?.status,
 					data: error.response?.data,
-					message: error.message
+					message: error.message,
 				});
 				throw error;
 			}
@@ -119,7 +123,7 @@ describe("Account Stats Integration Tests", () => {
 		const network = Network.BlueSky;
 		const from = new Date();
 		from.setUTCDate(from.getUTCDate() - 30);
-        const bucket = 3600 * 24;
+		const bucket = 3600 * 24;
 		const timeframes = [Timeframe._1d, Timeframe._7d, Timeframe._30d];
 
 		for (const timeframe of timeframes) {
@@ -130,19 +134,21 @@ describe("Account Stats Integration Tests", () => {
 					metric: Metric.Followers,
 					from: from.toISOString(),
 					timeframe,
-                    bucket: bucket.toString(),
+					bucket: bucket.toString(),
 				});
 				expect(response).toBeDefined();
 				expect(response.data).toBeDefined();
 				expect(Array.isArray(response.data)).toBe(true);
 				if (response.data.length > 0) {
-					expect(response.data.some((point: any) => point.value !== 0)).toBe(true);
+					expect(response.data.some((point: any) => point.value !== 0)).toBe(
+						true,
+					);
 				}
 			} catch (error: any) {
 				console.error(`Error for ${timeframe}:`, {
 					status: error.response?.status,
 					data: error.response?.data,
-					message: error.message
+					message: error.message,
 				});
 				throw error;
 			}
