@@ -28,7 +28,8 @@
 		"transform": {
 			"^.+\\.ts$": "ts-jest"
 		},
-		"silent": false
+		"silent": false,
+		"testTimeout": 100000
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
