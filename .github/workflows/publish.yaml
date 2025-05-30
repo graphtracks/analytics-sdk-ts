@@ -3,9 +3,13 @@ name: publish.yaml
 on:
   push:
     tags:
-      - "**v[0-9]+.[0-9]+.[0-9]+*"
+      - "v*"
+      - "v*.*.*"
+      - "*"
+      - "[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
-
+  release:
+    types: [published]
 
 jobs:
   publish:
