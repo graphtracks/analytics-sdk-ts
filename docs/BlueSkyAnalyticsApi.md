@@ -22,13 +22,13 @@ import {
 const configuration = new Configuration();
 const apiInstance = new BlueSkyAnalyticsApi(configuration);
 
-let network: Network; //The network to get stats for (default to undefined)
-let accountId: string; //The account id to get stats for (default to undefined)
+let network: Network; //The network to get stats for. Only BlueSky is supported right now. (default to undefined)
+let accountId: string; //The account id to get stats for. This is the did of the account for BlueSky. (default to undefined)
 let metric: Metric; //The metric to get stats for (default to undefined)
-let timeframe: Timeframe; //The timeframe to get stats for (optional) (default to undefined)
-let from: string; //The start date of the timeframe (optional) (default to undefined)
-let to: string; //The end date of the timeframe (optional) (default to undefined)
-let bucket: string; //bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. (optional) (default to undefined)
+let timeframe: Timeframe; //The timeframe to get stats for. If to and from are not provided, will return now - Timeframe. (optional) (default to undefined)
+let from: string; //The start date of the timeframe. If not provided, timeframe and to must be provided. (optional) (default to undefined)
+let to: string; //The end date of the timeframe. If not provided, timeframe and from must be provided. (optional) (default to undefined)
+let bucket: string; //bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string (optional) (default to '3600')
 
 const { status, data } = await apiInstance.getGlobalStatsForAccountAPI(
     network,
@@ -45,13 +45,13 @@ const { status, data } = await apiInstance.getGlobalStatsForAccountAPI(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **network** | **Network** | The network to get stats for | defaults to undefined|
-| **accountId** | [**string**] | The account id to get stats for | defaults to undefined|
+| **network** | **Network** | The network to get stats for. Only BlueSky is supported right now. | defaults to undefined|
+| **accountId** | [**string**] | The account id to get stats for. This is the did of the account for BlueSky. | defaults to undefined|
 | **metric** | **Metric** | The metric to get stats for | defaults to undefined|
-| **timeframe** | **Timeframe** | The timeframe to get stats for | (optional) defaults to undefined|
-| **from** | [**string**] | The start date of the timeframe | (optional) defaults to undefined|
-| **to** | [**string**] | The end date of the timeframe | (optional) defaults to undefined|
-| **bucket** | [**string**] | bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. | (optional) defaults to undefined|
+| **timeframe** | **Timeframe** | The timeframe to get stats for. If to and from are not provided, will return now - Timeframe. | (optional) defaults to undefined|
+| **from** | [**string**] | The start date of the timeframe. If not provided, timeframe and to must be provided. | (optional) defaults to undefined|
+| **to** | [**string**] | The end date of the timeframe. If not provided, timeframe and from must be provided. | (optional) defaults to undefined|
+| **bucket** | [**string**] | bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string | (optional) defaults to '3600'|
 
 
 ### Return type
@@ -75,7 +75,7 @@ const { status, data } = await apiInstance.getGlobalStatsForAccountAPI(
 |**403** | Forbidden - API Key valid but not authorized for this account or resource. |  -  |
 |**500** | Internal server error |  -  |
 |**400** | Bad request |  -  |
-|**200** | Stats |  -  |
+|**200** | Account growth rate stats. Time series data points for the given metric. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
