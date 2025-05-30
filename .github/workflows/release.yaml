@@ -30,6 +30,8 @@ jobs:
         env:
           GRAPHTRACKS_API_KEY: ${{ secrets.GRAPHTRACKS_API_KEY }}
           TEST_DID: ${{ secrets.TEST_DID }}
+      - name: Install semantic-release plugins
+        run: npm install @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/npm
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_BOT_GITHUB_TOKEN }}
