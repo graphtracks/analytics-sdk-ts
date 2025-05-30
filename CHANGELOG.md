@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.0.2...v1.0.3) (2025-05-30)
+
+
+### Bug Fixes
+
+* publish to npm ([7a84bce](https://github.com/graphtracks/analytics-sdk-ts/commit/7a84bcedf82a77f6fccf62b39862c1dc2cd00800))
+
 ## [1.0.2](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.0.1...v1.0.2) (2025-05-30)
 
 
