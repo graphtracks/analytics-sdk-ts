@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.0.0...v1.0.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* format ([ff98b73](https://github.com/graphtracks/analytics-sdk-ts/commit/ff98b73fc9a2a374d542fbd621ca392024396089))
+* remove semantic release from dependencies ([8641efa](https://github.com/graphtracks/analytics-sdk-ts/commit/8641efa8696d96f67b711f9448a79e618e3364a3))
+
 # 1.0.0 (2025-05-30)
 
 
