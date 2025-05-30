@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.0.6...v1.0.7) (2025-05-30)
+
+
+### Bug Fixes
+
+* make package public ([9135b57](https://github.com/graphtracks/analytics-sdk-ts/commit/9135b57aa900c92c74e802ac2bb8cb5a174d03c6))
+
 ## [1.0.6](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.0.5...v1.0.6) (2025-05-30)
 
 
