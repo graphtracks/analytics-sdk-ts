@@ -1,0 +1,36 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    runs-on: ubuntu-latest
+    environment: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_BOT_GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install
+      - run: npm run build
+      - run: npm run lint
+      - run: npm run test
+        env:
+          GRAPHTRACKS_API_KEY: ${{ secrets.GRAPHTRACKS_API_KEY }}
+          TEST_DID: ${{ secrets.TEST_DID }}
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_BOT_GITHUB_TOKEN }}
+        run: npx semantic-release
