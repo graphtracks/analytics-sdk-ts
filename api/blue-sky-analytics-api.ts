@@ -59,13 +59,13 @@ export const BlueSkyAnalyticsApiAxiosParamCreator = function (
 		/**
 		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
 		 * @summary Growth rate statistics for account
-		 * @param {Network} network The network to get stats for
-		 * @param {string} accountId The account id to get stats for
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id to get stats for. This is the did of the account for BlueSky.
 		 * @param {Metric} metric The metric to get stats for
-		 * @param {Timeframe} [timeframe] The timeframe to get stats for
-		 * @param {string} [from] The start date of the timeframe
-		 * @param {string} [to] The end date of the timeframe
-		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+		 * @param {Timeframe} [timeframe] The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
+		 * @param {string} [from] The start date of the timeframe. If not provided, timeframe and to must be provided.
+		 * @param {string} [to] The end date of the timeframe. If not provided, timeframe and from must be provided.
+		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
@@ -158,13 +158,13 @@ export const BlueSkyAnalyticsApiFp = function (configuration?: Configuration) {
 		/**
 		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
 		 * @summary Growth rate statistics for account
-		 * @param {Network} network The network to get stats for
-		 * @param {string} accountId The account id to get stats for
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id to get stats for. This is the did of the account for BlueSky.
 		 * @param {Metric} metric The metric to get stats for
-		 * @param {Timeframe} [timeframe] The timeframe to get stats for
-		 * @param {string} [from] The start date of the timeframe
-		 * @param {string} [to] The end date of the timeframe
-		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+		 * @param {Timeframe} [timeframe] The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
+		 * @param {string} [from] The start date of the timeframe. If not provided, timeframe and to must be provided.
+		 * @param {string} [to] The end date of the timeframe. If not provided, timeframe and from must be provided.
+		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
@@ -275,14 +275,14 @@ export interface BlueSkyAnalyticsApiInterface {
  */
 export interface BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest {
 	/**
-	 * The network to get stats for
+	 * The network to get stats for. Only BlueSky is supported right now.
 	 * @type {Network}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
 	readonly network: Network;
 
 	/**
-	 * The account id to get stats for
+	 * The account id to get stats for. This is the did of the account for BlueSky.
 	 * @type {string}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
@@ -296,28 +296,28 @@ export interface BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest {
 	readonly metric: Metric;
 
 	/**
-	 * The timeframe to get stats for
+	 * The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
 	 * @type {Timeframe}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
 	readonly timeframe?: Timeframe;
 
 	/**
-	 * The start date of the timeframe
+	 * The start date of the timeframe. If not provided, timeframe and to must be provided.
 	 * @type {string}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
 	readonly from?: string;
 
 	/**
-	 * The end date of the timeframe
+	 * The end date of the timeframe. If not provided, timeframe and from must be provided.
 	 * @type {string}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
 	readonly to?: string;
 
 	/**
-	 * bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+	 * bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
 	 * @type {string}
 	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
 	 */
