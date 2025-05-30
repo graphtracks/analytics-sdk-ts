@@ -1,6 +1,6 @@
 {
   "name": "@graphtracks/client",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "GraphTracks API Bluesky Analytics client for TypeScript",
   "author": "GraphTracks",
   "private": false,
@@ -34,14 +34,16 @@
   "dependencies": {
     "axios": "^1.6.1"
   },
-	"jest": {
-		"testMatch": ["**/tests/**/*.test.ts"],
-		"transform": {
-			"^.+\\.ts$": "ts-jest"
-		},
-		"silent": false,
-		"testTimeout": 100000
-	},
+  "jest": {
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "silent": false,
+    "testTimeout": 100000
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/node": "^22.15.17",
