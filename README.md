@@ -1,4 +1,4 @@
-## @graphtracks/client@1.0.0
+# Graphtracks client
 
 
 **TypeScript SDK for Bluesky Social Media Analytics** - analytics client library that enables developers to access detailed Bluesky social network statistics, user engagement metrics, and growth analytics through the GraphTracks API.
@@ -82,7 +82,7 @@ npx ts-node get-stats.ts did_of_the_account_you_want_to_get_stats_for
 
 Example output:
 
-```json
+```
 [
   { time: '2025-05-01 00:00:00', value: 30898 },
   { time: '2025-05-02 00:00:00', value: 27199 },
