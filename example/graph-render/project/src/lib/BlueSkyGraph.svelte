@@ -15,20 +15,23 @@
     let data;
     let chartCanvas: HTMLCanvasElement;
     let chart: Chart | undefined;
+    let username = "";
 
-    // if you want to resolve a username to a DID, you can call the function like this:
     async function usernameToDid(username: string): Promise<string> {
         const res = await fetch(
             `https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${username}`,
         );
-        const { data } = await res.json();
+        const data = await res.json();
         return data.did;
     }
 
     async function fetchData() {
+        if (!username) return;
+        const accountId = await usernameToDid(username);
+
         data = await api.getGlobalStatsForAccountAPI({
             network: Network.BlueSky,
-            accountId: usernameToDid("atrupar.com"),
+            accountId,
             metric: Metric.Followers,
             timeframe: Timeframe._1h,
             bucket: "60",
@@ -75,6 +78,10 @@
     });
 </script>
 
+<div style="width: 800px; height: 50px;">
+    <input bind:value={username} placeholder="Username" />
+    <button on:click={fetchData}>Fetch</button>
+</div>
 <div style="width: 800px; height: 400px;">
     <canvas bind:this={chartCanvas}></canvas>
 </div>
