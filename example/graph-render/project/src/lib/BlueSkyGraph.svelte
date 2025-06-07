@@ -28,7 +28,7 @@
     async function fetchData() {
         data = await api.getGlobalStatsForAccountAPI({
             network: Network.BlueSky,
-            accountId: "did:plc:4llrhdclvdlmmynkwsmg5tdc",
+            accountId: usernameToDid("atrupar.com"),
             metric: Metric.Followers,
             timeframe: Timeframe._1h,
             bucket: "60",
