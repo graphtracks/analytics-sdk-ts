@@ -4,15 +4,15 @@
     import { Metric, Network, Timeframe } from "@graphtracks/client";
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
-    import { GRAPHTRACKS_API_KEY } from "$lib";
+    import { PUBLIC_API_KEY } from "$env/static/public";
 
     const api = new BlueSkyAnalyticsApi(
         new Configuration({
-            apiKey: GRAPHTRACKS_API_KEY,
+            apiKey: PUBLIC_API_KEY,
         }),
     );
 
-    let data;
+    let data: { data: DataPoint[] } | undefined;
     let chartCanvas: HTMLCanvasElement;
     let chart: Chart | undefined;
     let username = "";
@@ -72,10 +72,6 @@
             });
         }
     }
-
-    onMount(() => {
-        fetchData();
-    });
 </script>
 
 <div style="width: 800px; height: 50px;">

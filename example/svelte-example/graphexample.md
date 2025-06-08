@@ -1,11 +1,8 @@
-# How to Display BlueSky Followers Graph in Svelte for any account
-
-
 This guide walks you through every step: acquiring your API key, fetching follower data, installing Chart.js, and rendering a live chart in a Svelte component.
 
 ## Prerequisites
 
-- Node.js v22+ and npm installed
+* Node.js v22+ and npm installed
 
 ## 1. Acquire Your Graphtracks API Key
 
@@ -17,7 +14,7 @@ Use the modern Svelte CLI to scaffold your project in one command:
 npx sv create
 ```
 
-## 2. Install API Client and Chart Library
+## 3. Install API Client and Chart Library
 
 Run:
 
@@ -25,22 +22,100 @@ Run:
 npm install @graphtracks/client chart.js
 ```
 
-- **@graphtracks/client**: to call BlueSky Analytics API
-- **chart.js**: to render the data
+* **@graphtracks/client**: to call BlueSky Analytics API
+* **chart.js**: to render the data
 
-## 3. Configure Your API Key
+## 4. Configure Your API Key
 
-Inside `src/lib/`, `index.ts`:
+Inside `.env`:
 
 ```ts
-export const GRAPHTRACKS_API_KEY = "YOUR_API_KEY_HERE";
+PUBLIC_API_KEY="YOUR_API_KEY_HERE"
 ```
 
-> **Tip:** For production, load this from an environment variable instead of hard-coding.
+## 5. Resolve Username to DID
 
-## 4. Build the BlueSkyGraph Component
+Create a helper function in `src/lib/BlueSkyGraph.svelte`:
 
-Create `src/lib/BlueSkyGraph.svelte` with the following content:
+```ts
+async function usernameToDid(username: string): Promise<string> {
+    const res = await fetch(
+        `https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${username}`
+    );
+    const data = await res.json();
+    return data.did;
+}
+```
+
+This converts a BlueSky handle into the unique DID required by the analytics API.
+
+## 6. Fetch Follower Data
+
+Add a `fetchData` function in the same file:
+
+```ts
+async function fetchData() {
+    if (!username) return;
+    const accountId = await usernameToDid(username);
+
+    data = await api.getGlobalStatsForAccountAPI({
+        network: Network.BlueSky,
+        accountId,
+        metric: Metric.Followers,
+        timeframe: Timeframe._1h,
+        bucket: "60",
+    });
+}
+```
+
+This retrieves follower counts in one-minute intervals over the last hour.
+
+## 7. Render the Chart
+
+After fetching, initialize or update the Chart.js instance:
+
+```ts
+if (data && chartCanvas) {
+    const ctx = chartCanvas.getContext("2d");
+    if (!ctx) return;
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: data.data.map(item => new Date(item.time).toLocaleTimeString()),
+            datasets: [{
+                label: "Followers",
+                data: data.data.map(item => item.value),
+                borderColor: "rgb(75, 192, 192)",
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+}
+```
+
+
+## 8. Integrate into Your App
+
+In `src/App.svelte`:
+
+```html
+<script lang="ts">
+  import BlueSkyGraph from "./lib/BlueSkyGraph.svelte";
+</script>
+
+<main>
+  <h1>BlueSky Followers Over Time</h1>
+  <BlueSkyGraph />
+</main>
+```
+
+
+## 9. Full Code
 
 ```html
 <script lang="ts">
@@ -49,15 +124,15 @@ Create `src/lib/BlueSkyGraph.svelte` with the following content:
     import { Metric, Network, Timeframe } from "@graphtracks/client";
     import { onMount } from "svelte";
     import Chart from "chart.js/auto";
-    import { GRAPHTRACKS_API_KEY } from "$lib";
+    import { PUBLIC_API_KEY } from "$env/static/public";
 
     const api = new BlueSkyAnalyticsApi(
         new Configuration({
-            apiKey: GRAPHTRACKS_API_KEY,
+            apiKey: PUBLIC_API_KEY,
         }),
     );
 
-    let data;
+    let data: { data: DataPoint[] } | undefined;
     let chartCanvas: HTMLCanvasElement;
     let chart: Chart | undefined;
     let username = "";
@@ -117,10 +192,6 @@ Create `src/lib/BlueSkyGraph.svelte` with the following content:
             });
         }
     }
-
-    onMount(() => {
-        fetchData();
-    });
 </script>
 
 <div style="width: 800px; height: 50px;">
@@ -130,35 +201,18 @@ Create `src/lib/BlueSkyGraph.svelte` with the following content:
 <div style="width: 800px; height: 400px;">
     <canvas bind:this={chartCanvas}></canvas>
 </div>
+
 ```
 
-> **Timeframe:** Timeframe specifies the total duration of historical data you want. For example: 1h fetches data from the last 1 hour
 
+## 10. Result
 
-> **Bucket:** Bucket defines the aggregation interval (in seconds) for your data points. For example: A bucket of 60 returns one data point per minute
+![BlueSky Followers Graph Example](./result.jpg)
 
-> **Best Practices:** Aim for 50–150 points on the chart to keep it readable. (Depends on graph width)
+---
 
+**Timeframe:** Total duration of historical data (e.g., 1h = last hour)
 
-## 5. Integrate into Your App
+**Bucket:** Aggregation interval in seconds (e.g., 60 = one point per minute)
 
-In `src/App.svelte`:
-
-```html
-<script lang="ts">
-  import BlueSkyGraph from "./lib/BlueSkyGraph.svelte";
-</script>
-
-<main>
-  <h1>BlueSky Followers Over Time</h1>
-  <BlueSkyGraph />
-</main>
-```
-## 6. Result
-
-
-![BlueSky Followers Graph Example](./photo_2025-06-07_19-35-24.jpg)
-
-
-
-
+**Best Practices:** Keep 50–150 points for readability.
