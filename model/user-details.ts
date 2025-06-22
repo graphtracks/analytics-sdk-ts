@@ -13,6 +13,21 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { UserDetailsEmail } from './user-details-email';
 
-export * from './api/blue-sky-analytics-api';
+/**
+ * The user details
+ * @export
+ * @interface UserDetails
+ */
+export interface UserDetails {
+    /**
+     * 
+     * @type {UserDetailsEmail}
+     * @memberof UserDetails
+     */
+    'email'?: UserDetailsEmail;
+}
 

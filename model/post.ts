@@ -14,5 +14,17 @@
 
 
 
-export * from './api/blue-sky-analytics-api';
+/**
+ * 
+ * @export
+ * @interface Post
+ */
+export interface Post {
+    /**
+     * The post identifier
+     * @type {string}
+     * @memberof Post
+     */
+    'post_id'?: string;
+}
 

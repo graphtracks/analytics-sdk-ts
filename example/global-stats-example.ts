@@ -8,12 +8,13 @@ const did = process.argv[2];
 const api = new BlueSkyAnalyticsApi(
 	new Configuration({
 		apiKey: process.env.GRAPHTRACKS_API_KEY,
+		basePath: process.env.GRAPHTRACKS_API_URL || "https://api.graphtracks.com",
 	}),
 );
 
 // Get followers stats for a given account
 api
-	.getGlobalStatsForAccountAPI({
+	.getGlobalStatsForAccount({
 		network: Network.BlueSky, // Only Bluesky is supported
 		accountId: did, // atproto account did
 		metric: Metric.Followers, // Metric to query

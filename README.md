@@ -101,16 +101,34 @@ All URIs are relative to *https://api.graphtracks.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*BlueSkyAnalyticsApi* | [**getGlobalStatsForAccountAPI**](docs/BlueSkyAnalyticsApi.md#getglobalstatsforaccountapi) | **GET** /v1/api/networks/{network}/accounts/{account_id}/stats/{metric} | Growth rate statistics for account
+*BlueSkyAnalyticsApi* | [**createNetworkAccount**](docs/BlueSkyAnalyticsApi.md#createnetworkaccount) | **POST** /v1/api/networks/account | Create a network account
+*BlueSkyAnalyticsApi* | [**deleteNetworkAccount**](docs/BlueSkyAnalyticsApi.md#deletenetworkaccount) | **DELETE** /v1/api/networks/accounts/{account_id} | Delete a network account
+*BlueSkyAnalyticsApi* | [**getGlobalStatsForAccount**](docs/BlueSkyAnalyticsApi.md#getglobalstatsforaccount) | **GET** /v1/api/networks/{network}/accounts/{account_id}/stats/{metric} | Growth rate statistics for account
+*BlueSkyAnalyticsApi* | [**getNetworkAccount**](docs/BlueSkyAnalyticsApi.md#getnetworkaccount) | **GET** /v1/api/networks/accounts/{account_id} | Get a network account
+*BlueSkyAnalyticsApi* | [**getNetworkAccounts**](docs/BlueSkyAnalyticsApi.md#getnetworkaccounts) | **GET** /v1/api/networks/accounts | Get network accounts for current user
+*BlueSkyAnalyticsApi* | [**getPostInteractions**](docs/BlueSkyAnalyticsApi.md#getpostinteractions) | **GET** /v1/api/networks/{network}/accounts/{account_id}/posts/{post_id}/interactions/{metric} | Get post interactions
+*BlueSkyAnalyticsApi* | [**getPostStats**](docs/BlueSkyAnalyticsApi.md#getpoststats) | **GET** /v1/api/networks/{network}/accounts/{account_id}/posts/{post_id}/stats | Get post statistics
+*BlueSkyAnalyticsApi* | [**getTopPostsForAccount**](docs/BlueSkyAnalyticsApi.md#gettoppostsforaccount) | **GET** /v1/api/networks/{network}/accounts/{account_id}/top-posts | Get top posts for an account
 
 
 ### Documentation For Models
 
+ - [CreateNetworkAccountRequest](docs/CreateNetworkAccountRequest.md)
  - [DataPoint](docs/DataPoint.md)
- - [GetGlobalStatsForAccountAPI403Response](docs/GetGlobalStatsForAccountAPI403Response.md)
+ - [DeleteNetworkAccount201Response](docs/DeleteNetworkAccount201Response.md)
+ - [GetNetworkAccount404Response](docs/GetNetworkAccount404Response.md)
+ - [Interaction](docs/Interaction.md)
  - [Metric](docs/Metric.md)
  - [Network](docs/Network.md)
+ - [NetworkAccount](docs/NetworkAccount.md)
+ - [NetworkStatsResponse](docs/NetworkStatsResponse.md)
+ - [Post](docs/Post.md)
+ - [PostData](docs/PostData.md)
+ - [PostsInner](docs/PostsInner.md)
  - [Timeframe](docs/Timeframe.md)
+ - [User](docs/User.md)
+ - [UserDetails](docs/UserDetails.md)
+ - [UserDetailsEmail](docs/UserDetailsEmail.md)
 
 
 <a id="documentation-for-authorization"></a>

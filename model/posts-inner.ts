@@ -13,6 +13,17 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Post } from './post';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { PostData } from './post-data';
 
-export * from './api/blue-sky-analytics-api';
+/**
+ * @type PostsInner
+ * @export
+ */
+export type PostsInner = Post & PostData;
+
 

@@ -14,5 +14,17 @@
 
 
 
-export * from './api/blue-sky-analytics-api';
+/**
+ * 
+ * @export
+ * @interface GetNetworkAccount404Response
+ */
+export interface GetNetworkAccount404Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof GetNetworkAccount404Response
+     */
+    'error'?: string;
+}
 
