@@ -12,18 +12,15 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Post } from "./post";
+// May contain unused imports in some cases
+// @ts-ignore
+import type { PostData } from "./post-data";
+
 /**
- * The metric to get stats for
+ * @type PostsInner
  * @export
- * @enum {string}
  */
-
-export const Metric = {
-	Followers: "followers",
-	Likes: "likes",
-	Replies: "replies",
-	Reposts: "reposts",
-	Engagement: "engagement",
-} as const;
-
-export type Metric = (typeof Metric)[keyof typeof Metric];
+export type PostsInner = Post & PostData;

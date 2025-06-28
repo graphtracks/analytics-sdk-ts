@@ -1,19 +1,19 @@
-# GetGlobalStatsForAccountAPI403Response
+# DeleteNetworkAccount201Response
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**error** | **string** |  | [optional] [default to undefined]
+**message** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { GetGlobalStatsForAccountAPI403Response } from '@graphtracks/client';
+import { DeleteNetworkAccount201Response } from '@graphtracks/client';
 
-const instance: GetGlobalStatsForAccountAPI403Response = {
-    error,
+const instance: DeleteNetworkAccount201Response = {
+    message,
 };
 ```
 

@@ -13,17 +13,15 @@
  */
 
 /**
- * The metric to get stats for
+ *
  * @export
- * @enum {string}
+ * @interface DeleteNetworkAccount201Response
  */
-
-export const Metric = {
-	Followers: "followers",
-	Likes: "likes",
-	Replies: "replies",
-	Reposts: "reposts",
-	Engagement: "engagement",
-} as const;
-
-export type Metric = (typeof Metric)[keyof typeof Metric];
+export interface DeleteNetworkAccount201Response {
+	/**
+	 *
+	 * @type {string}
+	 * @memberof DeleteNetworkAccount201Response
+	 */
+	message?: string;
+}

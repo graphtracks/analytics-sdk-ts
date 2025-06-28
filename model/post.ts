@@ -15,13 +15,13 @@
 /**
  *
  * @export
- * @interface GetGlobalStatsForAccountAPI403Response
+ * @interface Post
  */
-export interface GetGlobalStatsForAccountAPI403Response {
+export interface Post {
 	/**
-	 *
+	 * The post identifier
 	 * @type {string}
-	 * @memberof GetGlobalStatsForAccountAPI403Response
+	 * @memberof Post
 	 */
-	error?: string;
+	post_id?: string;
 }

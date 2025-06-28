@@ -13,17 +13,15 @@
  */
 
 /**
- * The metric to get stats for
+ *
  * @export
- * @enum {string}
+ * @interface GetNetworkAccount404Response
  */
-
-export const Metric = {
-	Followers: "followers",
-	Likes: "likes",
-	Replies: "replies",
-	Reposts: "reposts",
-	Engagement: "engagement",
-} as const;
-
-export type Metric = (typeof Metric)[keyof typeof Metric];
+export interface GetNetworkAccount404Response {
+	/**
+	 *
+	 * @type {string}
+	 * @memberof GetNetworkAccount404Response
+	 */
+	error?: string;
+}

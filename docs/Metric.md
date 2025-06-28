@@ -12,4 +12,6 @@ The metric to get stats for
 
 * `Reposts` (value: `'reposts'`)
 
+* `Engagement` (value: `'engagement'`)
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

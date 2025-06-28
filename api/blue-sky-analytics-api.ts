@@ -39,13 +39,23 @@ import {
 } from "../common";
 import type { Configuration } from "../configuration";
 // @ts-ignore
+import type { CreateNetworkAccountRequest } from "../model";
+// @ts-ignore
 import type { DataPoint } from "../model";
 // @ts-ignore
-import type { GetGlobalStatsForAccountAPI403Response } from "../model";
+import type { DeleteNetworkAccount201Response } from "../model";
+// @ts-ignore
+import type { GetNetworkAccount404Response } from "../model";
+// @ts-ignore
+import type { Interaction } from "../model";
 // @ts-ignore
 import type { Metric } from "../model";
 // @ts-ignore
 import type { Network } from "../model";
+// @ts-ignore
+import type { NetworkAccount } from "../model";
+// @ts-ignore
+import type { PostsInner } from "../model";
 // @ts-ignore
 import type { Timeframe } from "../model";
 /**
@@ -57,34 +67,148 @@ export const BlueSkyAnalyticsApiAxiosParamCreator = function (
 ) {
 	return {
 		/**
+		 * Create a network account for the authenticated user.
+		 * @summary Create a network account
+		 * @param {CreateNetworkAccountRequest} createNetworkAccountRequest
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		createNetworkAccount: async (
+			createNetworkAccountRequest: CreateNetworkAccountRequest,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'createNetworkAccountRequest' is not null or undefined
+			assertParamExists(
+				"createNetworkAccount",
+				"createNetworkAccountRequest",
+				createNetworkAccountRequest,
+			);
+			const localVarPath = `/v1/api/networks/account`;
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "POST",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			localVarHeaderParameter["Content-Type"] = "application/json";
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+			localVarRequestOptions.data = serializeDataIfNeeded(
+				createNetworkAccountRequest,
+				localVarRequestOptions,
+				configuration,
+			);
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 * Delete a network account from your GraphTracks account.
+		 * @summary Delete a network account
+		 * @param {string} accountId The account id to get or delete. This is the did of the account for BlueSky.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		deleteNetworkAccount: async (
+			accountId: string,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'accountId' is not null or undefined
+			assertParamExists("deleteNetworkAccount", "accountId", accountId);
+			const localVarPath = `/v1/api/networks/accounts/{account_id}`.replace(
+				`{${"account_id"}}`,
+				encodeURIComponent(String(accountId)),
+			);
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "DELETE",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
 		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
 		 * @summary Growth rate statistics for account
 		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
 		 * @param {string} accountId The account id to get stats for. This is the did of the account for BlueSky.
 		 * @param {Metric} metric The metric to get stats for
 		 * @param {Timeframe} [timeframe] The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
-		 * @param {string} [from] The start date of the timeframe. If not provided, timeframe and to must be provided.
+		 * @param {string} [from]
 		 * @param {string} [to] The end date of the timeframe. If not provided, timeframe and from must be provided.
-		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
+		 * @param {number} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getGlobalStatsForAccountAPI: async (
+		getGlobalStatsForAccount: async (
 			network: Network,
 			accountId: string,
 			metric: Metric,
 			timeframe?: Timeframe,
 			from?: string,
 			to?: string,
-			bucket?: string,
+			bucket?: number,
 			options: RawAxiosRequestConfig = {},
 		): Promise<RequestArgs> => {
 			// verify required parameter 'network' is not null or undefined
-			assertParamExists("getGlobalStatsForAccountAPI", "network", network);
+			assertParamExists("getGlobalStatsForAccount", "network", network);
 			// verify required parameter 'accountId' is not null or undefined
-			assertParamExists("getGlobalStatsForAccountAPI", "accountId", accountId);
+			assertParamExists("getGlobalStatsForAccount", "accountId", accountId);
 			// verify required parameter 'metric' is not null or undefined
-			assertParamExists("getGlobalStatsForAccountAPI", "metric", metric);
+			assertParamExists("getGlobalStatsForAccount", "metric", metric);
 			const localVarPath =
 				`/v1/api/networks/{network}/accounts/{account_id}/stats/{metric}`
 					.replace(`{${"network"}}`, encodeURIComponent(String(network)))
@@ -144,6 +268,376 @@ export const BlueSkyAnalyticsApiAxiosParamCreator = function (
 				options: localVarRequestOptions,
 			};
 		},
+		/**
+		 * Get details for a specific network account.
+		 * @summary Get a network account
+		 * @param {string} accountId The account id to get or delete. This is the did of the account for BlueSky.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getNetworkAccount: async (
+			accountId: string,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'accountId' is not null or undefined
+			assertParamExists("getNetworkAccount", "accountId", accountId);
+			const localVarPath = `/v1/api/networks/accounts/{account_id}`.replace(
+				`{${"account_id"}}`,
+				encodeURIComponent(String(accountId)),
+			);
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "GET",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 * Get all network accounts associated with the authenticated user.
+		 * @summary Get network accounts for current user
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getNetworkAccounts: async (
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			const localVarPath = `/v1/api/networks/accounts`;
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "GET",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 * Get detailed interaction data for a specific post, including user profiles who interacted.
+		 * @summary Get post interactions
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id that owns the post. This is the did of the account for BlueSky.
+		 * @param {string} postId The post id to get interactions for
+		 * @param {Metric} metric The type of interaction to retrieve
+		 * @param {Timeframe} timeframe The timeframe to get interactions for
+		 * @param {string} from The start date of the timeframe
+		 * @param {string} [to] The end date of the timeframe
+		 * @param {number} [limit] Maximum number of interactions to return
+		 * @param {number} [offset] Offset for pagination
+		 * @param {GetPostInteractionsSortEnum} [sort] Sort order for interactions
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getPostInteractions: async (
+			network: Network,
+			accountId: string,
+			postId: string,
+			metric: Metric,
+			timeframe: Timeframe,
+			from: string,
+			to?: string,
+			limit?: number,
+			offset?: number,
+			sort?: GetPostInteractionsSortEnum,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'network' is not null or undefined
+			assertParamExists("getPostInteractions", "network", network);
+			// verify required parameter 'accountId' is not null or undefined
+			assertParamExists("getPostInteractions", "accountId", accountId);
+			// verify required parameter 'postId' is not null or undefined
+			assertParamExists("getPostInteractions", "postId", postId);
+			// verify required parameter 'metric' is not null or undefined
+			assertParamExists("getPostInteractions", "metric", metric);
+			// verify required parameter 'timeframe' is not null or undefined
+			assertParamExists("getPostInteractions", "timeframe", timeframe);
+			// verify required parameter 'from' is not null or undefined
+			assertParamExists("getPostInteractions", "from", from);
+			const localVarPath =
+				`/v1/api/networks/{network}/accounts/{account_id}/posts/{post_id}/interactions/{metric}`
+					.replace(`{${"network"}}`, encodeURIComponent(String(network)))
+					.replace(`{${"account_id"}}`, encodeURIComponent(String(accountId)))
+					.replace(`{${"post_id"}}`, encodeURIComponent(String(postId)))
+					.replace(`{${"metric"}}`, encodeURIComponent(String(metric)));
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "GET",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			if (timeframe !== undefined) {
+				localVarQueryParameter["timeframe"] = timeframe;
+			}
+
+			if (from !== undefined) {
+				localVarQueryParameter["from"] =
+					(from as any) instanceof Date ? (from as any).toISOString() : from;
+			}
+
+			if (to !== undefined) {
+				localVarQueryParameter["to"] =
+					(to as any) instanceof Date ? (to as any).toISOString() : to;
+			}
+
+			if (limit !== undefined) {
+				localVarQueryParameter["limit"] = limit;
+			}
+
+			if (offset !== undefined) {
+				localVarQueryParameter["offset"] = offset;
+			}
+
+			if (sort !== undefined) {
+				localVarQueryParameter["sort"] = sort;
+			}
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 * Get time series statistics for a specific post. Requires metric, timeframe, and from parameters.
+		 * @summary Get post statistics
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id that owns the post. This is the did of the account for BlueSky.
+		 * @param {string} postId The post id to get stats for
+		 * @param {Metric} metric The metric to get stats for
+		 * @param {Timeframe} timeframe The timeframe to get stats for
+		 * @param {string} from The start date of the timeframe
+		 * @param {number} [bucket] Bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getPostStats: async (
+			network: Network,
+			accountId: string,
+			postId: string,
+			metric: Metric,
+			timeframe: Timeframe,
+			from: string,
+			bucket?: number,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'network' is not null or undefined
+			assertParamExists("getPostStats", "network", network);
+			// verify required parameter 'accountId' is not null or undefined
+			assertParamExists("getPostStats", "accountId", accountId);
+			// verify required parameter 'postId' is not null or undefined
+			assertParamExists("getPostStats", "postId", postId);
+			// verify required parameter 'metric' is not null or undefined
+			assertParamExists("getPostStats", "metric", metric);
+			// verify required parameter 'timeframe' is not null or undefined
+			assertParamExists("getPostStats", "timeframe", timeframe);
+			// verify required parameter 'from' is not null or undefined
+			assertParamExists("getPostStats", "from", from);
+			const localVarPath =
+				`/v1/api/networks/{network}/accounts/{account_id}/posts/{post_id}/stats`
+					.replace(`{${"network"}}`, encodeURIComponent(String(network)))
+					.replace(`{${"account_id"}}`, encodeURIComponent(String(accountId)))
+					.replace(`{${"post_id"}}`, encodeURIComponent(String(postId)));
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "GET",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			if (metric !== undefined) {
+				localVarQueryParameter["metric"] = metric;
+			}
+
+			if (timeframe !== undefined) {
+				localVarQueryParameter["timeframe"] = timeframe;
+			}
+
+			if (from !== undefined) {
+				localVarQueryParameter["from"] =
+					(from as any) instanceof Date ? (from as any).toISOString() : from;
+			}
+
+			if (bucket !== undefined) {
+				localVarQueryParameter["bucket"] = bucket;
+			}
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
+		/**
+		 * Get the top performing posts for an account within a specified timeframe.
+		 * @summary Get top posts for an account
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id to get top posts for. This is the did of the account for BlueSky.
+		 * @param {Timeframe} [timeframe] The timeframe to analyze for top posts
+		 * @param {number} [limit] Maximum number of top posts to return
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getTopPostsForAccount: async (
+			network: Network,
+			accountId: string,
+			timeframe?: Timeframe,
+			limit?: number,
+			options: RawAxiosRequestConfig = {},
+		): Promise<RequestArgs> => {
+			// verify required parameter 'network' is not null or undefined
+			assertParamExists("getTopPostsForAccount", "network", network);
+			// verify required parameter 'accountId' is not null or undefined
+			assertParamExists("getTopPostsForAccount", "accountId", accountId);
+			const localVarPath =
+				`/v1/api/networks/{network}/accounts/{account_id}/top-posts`
+					.replace(`{${"network"}}`, encodeURIComponent(String(network)))
+					.replace(`{${"account_id"}}`, encodeURIComponent(String(accountId)));
+			// use dummy base URL string because the URL constructor only accepts absolute URLs.
+			const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+			let baseOptions;
+			if (configuration) {
+				baseOptions = configuration.baseOptions;
+			}
+
+			const localVarRequestOptions = {
+				method: "GET",
+				...baseOptions,
+				...options,
+			};
+			const localVarHeaderParameter = {} as any;
+			const localVarQueryParameter = {} as any;
+
+			// authentication apiKeyAuth required
+			await setApiKeyToObject(
+				localVarHeaderParameter,
+				"X-API-Key",
+				configuration,
+			);
+
+			if (timeframe !== undefined) {
+				localVarQueryParameter["timeframe"] = timeframe;
+			}
+
+			if (limit !== undefined) {
+				localVarQueryParameter["limit"] = limit;
+			}
+
+			setSearchParams(localVarUrlObj, localVarQueryParameter);
+			let headersFromBaseOptions =
+				baseOptions && baseOptions.headers ? baseOptions.headers : {};
+			localVarRequestOptions.headers = {
+				...localVarHeaderParameter,
+				...headersFromBaseOptions,
+				...options.headers,
+			};
+
+			return {
+				url: toPathString(localVarUrlObj),
+				options: localVarRequestOptions,
+			};
+		},
 	};
 };
 
@@ -156,26 +650,91 @@ export const BlueSkyAnalyticsApiFp = function (configuration?: Configuration) {
 		BlueSkyAnalyticsApiAxiosParamCreator(configuration);
 	return {
 		/**
+		 * Create a network account for the authenticated user.
+		 * @summary Create a network account
+		 * @param {CreateNetworkAccountRequest} createNetworkAccountRequest
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async createNetworkAccount(
+			createNetworkAccountRequest: CreateNetworkAccountRequest,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NetworkAccount>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.createNetworkAccount(
+					createNetworkAccountRequest,
+					options,
+				);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.createNetworkAccount"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Delete a network account from your GraphTracks account.
+		 * @summary Delete a network account
+		 * @param {string} accountId The account id to get or delete. This is the did of the account for BlueSky.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async deleteNetworkAccount(
+			accountId: string,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(
+				axios?: AxiosInstance,
+				basePath?: string,
+			) => AxiosPromise<DeleteNetworkAccount201Response>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.deleteNetworkAccount(
+					accountId,
+					options,
+				);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.deleteNetworkAccount"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
 		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
 		 * @summary Growth rate statistics for account
 		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
 		 * @param {string} accountId The account id to get stats for. This is the did of the account for BlueSky.
 		 * @param {Metric} metric The metric to get stats for
 		 * @param {Timeframe} [timeframe] The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
-		 * @param {string} [from] The start date of the timeframe. If not provided, timeframe and to must be provided.
+		 * @param {string} [from]
 		 * @param {string} [to] The end date of the timeframe. If not provided, timeframe and from must be provided.
-		 * @param {string} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
+		 * @param {number} [bucket] bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		async getGlobalStatsForAccountAPI(
+		async getGlobalStatsForAccount(
 			network: Network,
 			accountId: string,
 			metric: Metric,
 			timeframe?: Timeframe,
 			from?: string,
 			to?: string,
-			bucket?: string,
+			bucket?: number,
 			options?: RawAxiosRequestConfig,
 		): Promise<
 			(
@@ -184,7 +743,7 @@ export const BlueSkyAnalyticsApiFp = function (configuration?: Configuration) {
 			) => AxiosPromise<Array<DataPoint>>
 		> {
 			const localVarAxiosArgs =
-				await localVarAxiosParamCreator.getGlobalStatsForAccountAPI(
+				await localVarAxiosParamCreator.getGlobalStatsForAccount(
 					network,
 					accountId,
 					metric,
@@ -196,7 +755,219 @@ export const BlueSkyAnalyticsApiFp = function (configuration?: Configuration) {
 				);
 			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
 			const localVarOperationServerBasePath =
-				operationServerMap["BlueSkyAnalyticsApi.getGlobalStatsForAccountAPI"]?.[
+				operationServerMap["BlueSkyAnalyticsApi.getGlobalStatsForAccount"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Get details for a specific network account.
+		 * @summary Get a network account
+		 * @param {string} accountId The account id to get or delete. This is the did of the account for BlueSky.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getNetworkAccount(
+			accountId: string,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NetworkAccount>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.getNetworkAccount(accountId, options);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.getNetworkAccount"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Get all network accounts associated with the authenticated user.
+		 * @summary Get network accounts for current user
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getNetworkAccounts(
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(
+				axios?: AxiosInstance,
+				basePath?: string,
+			) => AxiosPromise<Array<NetworkAccount>>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.getNetworkAccounts(options);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.getNetworkAccounts"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Get detailed interaction data for a specific post, including user profiles who interacted.
+		 * @summary Get post interactions
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id that owns the post. This is the did of the account for BlueSky.
+		 * @param {string} postId The post id to get interactions for
+		 * @param {Metric} metric The type of interaction to retrieve
+		 * @param {Timeframe} timeframe The timeframe to get interactions for
+		 * @param {string} from The start date of the timeframe
+		 * @param {string} [to] The end date of the timeframe
+		 * @param {number} [limit] Maximum number of interactions to return
+		 * @param {number} [offset] Offset for pagination
+		 * @param {GetPostInteractionsSortEnum} [sort] Sort order for interactions
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getPostInteractions(
+			network: Network,
+			accountId: string,
+			postId: string,
+			metric: Metric,
+			timeframe: Timeframe,
+			from: string,
+			to?: string,
+			limit?: number,
+			offset?: number,
+			sort?: GetPostInteractionsSortEnum,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(
+				axios?: AxiosInstance,
+				basePath?: string,
+			) => AxiosPromise<Array<Interaction>>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.getPostInteractions(
+					network,
+					accountId,
+					postId,
+					metric,
+					timeframe,
+					from,
+					to,
+					limit,
+					offset,
+					sort,
+					options,
+				);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.getPostInteractions"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Get time series statistics for a specific post. Requires metric, timeframe, and from parameters.
+		 * @summary Get post statistics
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id that owns the post. This is the did of the account for BlueSky.
+		 * @param {string} postId The post id to get stats for
+		 * @param {Metric} metric The metric to get stats for
+		 * @param {Timeframe} timeframe The timeframe to get stats for
+		 * @param {string} from The start date of the timeframe
+		 * @param {number} [bucket] Bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getPostStats(
+			network: Network,
+			accountId: string,
+			postId: string,
+			metric: Metric,
+			timeframe: Timeframe,
+			from: string,
+			bucket?: number,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(
+				axios?: AxiosInstance,
+				basePath?: string,
+			) => AxiosPromise<Array<DataPoint>>
+		> {
+			const localVarAxiosArgs = await localVarAxiosParamCreator.getPostStats(
+				network,
+				accountId,
+				postId,
+				metric,
+				timeframe,
+				from,
+				bucket,
+				options,
+			);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.getPostStats"]?.[
+					localVarOperationServerIndex
+				]?.url;
+			return (axios, basePath) =>
+				createRequestFunction(
+					localVarAxiosArgs,
+					globalAxios,
+					BASE_PATH,
+					configuration,
+				)(axios, localVarOperationServerBasePath || basePath);
+		},
+		/**
+		 * Get the top performing posts for an account within a specified timeframe.
+		 * @summary Get top posts for an account
+		 * @param {Network} network The network to get stats for. Only BlueSky is supported right now.
+		 * @param {string} accountId The account id to get top posts for. This is the did of the account for BlueSky.
+		 * @param {Timeframe} [timeframe] The timeframe to analyze for top posts
+		 * @param {number} [limit] Maximum number of top posts to return
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		async getTopPostsForAccount(
+			network: Network,
+			accountId: string,
+			timeframe?: Timeframe,
+			limit?: number,
+			options?: RawAxiosRequestConfig,
+		): Promise<
+			(
+				axios?: AxiosInstance,
+				basePath?: string,
+			) => AxiosPromise<Array<PostsInner>>
+		> {
+			const localVarAxiosArgs =
+				await localVarAxiosParamCreator.getTopPostsForAccount(
+					network,
+					accountId,
+					timeframe,
+					limit,
+					options,
+				);
+			const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+			const localVarOperationServerBasePath =
+				operationServerMap["BlueSkyAnalyticsApi.getTopPostsForAccount"]?.[
 					localVarOperationServerIndex
 				]?.url;
 			return (axios, basePath) =>
@@ -222,18 +993,51 @@ export const BlueSkyAnalyticsApiFactory = function (
 	const localVarFp = BlueSkyAnalyticsApiFp(configuration);
 	return {
 		/**
-		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
-		 * @summary Growth rate statistics for account
-		 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest} requestParameters Request parameters.
+		 * Create a network account for the authenticated user.
+		 * @summary Create a network account
+		 * @param {BlueSkyAnalyticsApiCreateNetworkAccountRequest} requestParameters Request parameters.
 		 * @param {*} [options] Override http request option.
 		 * @throws {RequiredError}
 		 */
-		getGlobalStatsForAccountAPI(
-			requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest,
+		createNetworkAccount(
+			requestParameters: BlueSkyAnalyticsApiCreateNetworkAccountRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<NetworkAccount> {
+			return localVarFp
+				.createNetworkAccount(
+					requestParameters.createNetworkAccountRequest,
+					options,
+				)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Delete a network account from your GraphTracks account.
+		 * @summary Delete a network account
+		 * @param {BlueSkyAnalyticsApiDeleteNetworkAccountRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		deleteNetworkAccount(
+			requestParameters: BlueSkyAnalyticsApiDeleteNetworkAccountRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<DeleteNetworkAccount201Response> {
+			return localVarFp
+				.deleteNetworkAccount(requestParameters.accountId, options)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get growth rate statistics for account. Timeframe, from or to must be provided.
+		 * @summary Growth rate statistics for account
+		 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getGlobalStatsForAccount(
+			requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest,
 			options?: RawAxiosRequestConfig,
 		): AxiosPromise<Array<DataPoint>> {
 			return localVarFp
-				.getGlobalStatsForAccountAPI(
+				.getGlobalStatsForAccount(
 					requestParameters.network,
 					requestParameters.accountId,
 					requestParameters.metric,
@@ -241,6 +1045,106 @@ export const BlueSkyAnalyticsApiFactory = function (
 					requestParameters.from,
 					requestParameters.to,
 					requestParameters.bucket,
+					options,
+				)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get details for a specific network account.
+		 * @summary Get a network account
+		 * @param {BlueSkyAnalyticsApiGetNetworkAccountRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getNetworkAccount(
+			requestParameters: BlueSkyAnalyticsApiGetNetworkAccountRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<NetworkAccount> {
+			return localVarFp
+				.getNetworkAccount(requestParameters.accountId, options)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get all network accounts associated with the authenticated user.
+		 * @summary Get network accounts for current user
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getNetworkAccounts(
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<Array<NetworkAccount>> {
+			return localVarFp
+				.getNetworkAccounts(options)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get detailed interaction data for a specific post, including user profiles who interacted.
+		 * @summary Get post interactions
+		 * @param {BlueSkyAnalyticsApiGetPostInteractionsRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getPostInteractions(
+			requestParameters: BlueSkyAnalyticsApiGetPostInteractionsRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<Array<Interaction>> {
+			return localVarFp
+				.getPostInteractions(
+					requestParameters.network,
+					requestParameters.accountId,
+					requestParameters.postId,
+					requestParameters.metric,
+					requestParameters.timeframe,
+					requestParameters.from,
+					requestParameters.to,
+					requestParameters.limit,
+					requestParameters.offset,
+					requestParameters.sort,
+					options,
+				)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get time series statistics for a specific post. Requires metric, timeframe, and from parameters.
+		 * @summary Get post statistics
+		 * @param {BlueSkyAnalyticsApiGetPostStatsRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getPostStats(
+			requestParameters: BlueSkyAnalyticsApiGetPostStatsRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<Array<DataPoint>> {
+			return localVarFp
+				.getPostStats(
+					requestParameters.network,
+					requestParameters.accountId,
+					requestParameters.postId,
+					requestParameters.metric,
+					requestParameters.timeframe,
+					requestParameters.from,
+					requestParameters.bucket,
+					options,
+				)
+				.then((request) => request(axios, basePath));
+		},
+		/**
+		 * Get the top performing posts for an account within a specified timeframe.
+		 * @summary Get top posts for an account
+		 * @param {BlueSkyAnalyticsApiGetTopPostsForAccountRequest} requestParameters Request parameters.
+		 * @param {*} [options] Override http request option.
+		 * @throws {RequiredError}
+		 */
+		getTopPostsForAccount(
+			requestParameters: BlueSkyAnalyticsApiGetTopPostsForAccountRequest,
+			options?: RawAxiosRequestConfig,
+		): AxiosPromise<Array<PostsInner>> {
+			return localVarFp
+				.getTopPostsForAccount(
+					requestParameters.network,
+					requestParameters.accountId,
+					requestParameters.timeframe,
+					requestParameters.limit,
 					options,
 				)
 				.then((request) => request(axios, basePath));
@@ -255,73 +1159,372 @@ export const BlueSkyAnalyticsApiFactory = function (
  */
 export interface BlueSkyAnalyticsApiInterface {
 	/**
-	 * Get growth rate statistics for account. Timeframe, from or to must be provided.
-	 * @summary Growth rate statistics for account
-	 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest} requestParameters Request parameters.
+	 * Create a network account for the authenticated user.
+	 * @summary Create a network account
+	 * @param {BlueSkyAnalyticsApiCreateNetworkAccountRequest} requestParameters Request parameters.
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof BlueSkyAnalyticsApiInterface
 	 */
-	getGlobalStatsForAccountAPI(
-		requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest,
+	createNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiCreateNetworkAccountRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<NetworkAccount>;
+
+	/**
+	 * Delete a network account from your GraphTracks account.
+	 * @summary Delete a network account
+	 * @param {BlueSkyAnalyticsApiDeleteNetworkAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	deleteNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiDeleteNetworkAccountRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<DeleteNetworkAccount201Response>;
+
+	/**
+	 * Get growth rate statistics for account. Timeframe, from or to must be provided.
+	 * @summary Growth rate statistics for account
+	 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getGlobalStatsForAccount(
+		requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest,
 		options?: RawAxiosRequestConfig,
 	): AxiosPromise<Array<DataPoint>>;
+
+	/**
+	 * Get details for a specific network account.
+	 * @summary Get a network account
+	 * @param {BlueSkyAnalyticsApiGetNetworkAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiGetNetworkAccountRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<NetworkAccount>;
+
+	/**
+	 * Get all network accounts associated with the authenticated user.
+	 * @summary Get network accounts for current user
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getNetworkAccounts(
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<Array<NetworkAccount>>;
+
+	/**
+	 * Get detailed interaction data for a specific post, including user profiles who interacted.
+	 * @summary Get post interactions
+	 * @param {BlueSkyAnalyticsApiGetPostInteractionsRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getPostInteractions(
+		requestParameters: BlueSkyAnalyticsApiGetPostInteractionsRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<Array<Interaction>>;
+
+	/**
+	 * Get time series statistics for a specific post. Requires metric, timeframe, and from parameters.
+	 * @summary Get post statistics
+	 * @param {BlueSkyAnalyticsApiGetPostStatsRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getPostStats(
+		requestParameters: BlueSkyAnalyticsApiGetPostStatsRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<Array<DataPoint>>;
+
+	/**
+	 * Get the top performing posts for an account within a specified timeframe.
+	 * @summary Get top posts for an account
+	 * @param {BlueSkyAnalyticsApiGetTopPostsForAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApiInterface
+	 */
+	getTopPostsForAccount(
+		requestParameters: BlueSkyAnalyticsApiGetTopPostsForAccountRequest,
+		options?: RawAxiosRequestConfig,
+	): AxiosPromise<Array<PostsInner>>;
 }
 
 /**
- * Request parameters for getGlobalStatsForAccountAPI operation in BlueSkyAnalyticsApi.
+ * Request parameters for createNetworkAccount operation in BlueSkyAnalyticsApi.
  * @export
- * @interface BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest
+ * @interface BlueSkyAnalyticsApiCreateNetworkAccountRequest
  */
-export interface BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest {
+export interface BlueSkyAnalyticsApiCreateNetworkAccountRequest {
+	/**
+	 *
+	 * @type {CreateNetworkAccountRequest}
+	 * @memberof BlueSkyAnalyticsApiCreateNetworkAccount
+	 */
+	readonly createNetworkAccountRequest: CreateNetworkAccountRequest;
+}
+
+/**
+ * Request parameters for deleteNetworkAccount operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiDeleteNetworkAccountRequest
+ */
+export interface BlueSkyAnalyticsApiDeleteNetworkAccountRequest {
+	/**
+	 * The account id to get or delete. This is the did of the account for BlueSky.
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiDeleteNetworkAccount
+	 */
+	readonly accountId: string;
+}
+
+/**
+ * Request parameters for getGlobalStatsForAccount operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest
+ */
+export interface BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest {
 	/**
 	 * The network to get stats for. Only BlueSky is supported right now.
 	 * @type {Network}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly network: Network;
 
 	/**
 	 * The account id to get stats for. This is the did of the account for BlueSky.
 	 * @type {string}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly accountId: string;
 
 	/**
 	 * The metric to get stats for
 	 * @type {Metric}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly metric: Metric;
 
 	/**
 	 * The timeframe to get stats for. If to and from are not provided, will return now - Timeframe.
 	 * @type {Timeframe}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly timeframe?: Timeframe;
 
 	/**
-	 * The start date of the timeframe. If not provided, timeframe and to must be provided.
+	 *
 	 * @type {string}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly from?: string;
 
 	/**
 	 * The end date of the timeframe. If not provided, timeframe and from must be provided.
 	 * @type {string}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
 	readonly to?: string;
 
 	/**
-	 * bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size. Must be provided as string
-	 * @type {string}
-	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccountAPI
+	 * bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+	 * @type {number}
+	 * @memberof BlueSkyAnalyticsApiGetGlobalStatsForAccount
 	 */
-	readonly bucket?: string;
+	readonly bucket?: number;
+}
+
+/**
+ * Request parameters for getNetworkAccount operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiGetNetworkAccountRequest
+ */
+export interface BlueSkyAnalyticsApiGetNetworkAccountRequest {
+	/**
+	 * The account id to get or delete. This is the did of the account for BlueSky.
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetNetworkAccount
+	 */
+	readonly accountId: string;
+}
+
+/**
+ * Request parameters for getPostInteractions operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiGetPostInteractionsRequest
+ */
+export interface BlueSkyAnalyticsApiGetPostInteractionsRequest {
+	/**
+	 * The network to get stats for. Only BlueSky is supported right now.
+	 * @type {Network}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly network: Network;
+
+	/**
+	 * The account id that owns the post. This is the did of the account for BlueSky.
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly accountId: string;
+
+	/**
+	 * The post id to get interactions for
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly postId: string;
+
+	/**
+	 * The type of interaction to retrieve
+	 * @type {Metric}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly metric: Metric;
+
+	/**
+	 * The timeframe to get interactions for
+	 * @type {Timeframe}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly timeframe: Timeframe;
+
+	/**
+	 * The start date of the timeframe
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly from: string;
+
+	/**
+	 * The end date of the timeframe
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly to?: string;
+
+	/**
+	 * Maximum number of interactions to return
+	 * @type {number}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly limit?: number;
+
+	/**
+	 * Offset for pagination
+	 * @type {number}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly offset?: number;
+
+	/**
+	 * Sort order for interactions
+	 * @type {'asc' | 'desc'}
+	 * @memberof BlueSkyAnalyticsApiGetPostInteractions
+	 */
+	readonly sort?: GetPostInteractionsSortEnum;
+}
+
+/**
+ * Request parameters for getPostStats operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiGetPostStatsRequest
+ */
+export interface BlueSkyAnalyticsApiGetPostStatsRequest {
+	/**
+	 * The network to get stats for. Only BlueSky is supported right now.
+	 * @type {Network}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly network: Network;
+
+	/**
+	 * The account id that owns the post. This is the did of the account for BlueSky.
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly accountId: string;
+
+	/**
+	 * The post id to get stats for
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly postId: string;
+
+	/**
+	 * The metric to get stats for
+	 * @type {Metric}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly metric: Metric;
+
+	/**
+	 * The timeframe to get stats for
+	 * @type {Timeframe}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly timeframe: Timeframe;
+
+	/**
+	 * The start date of the timeframe
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly from: string;
+
+	/**
+	 * Bucket size. Interval in seconds between data points. Data points will be aggregated into this bucket size.
+	 * @type {number}
+	 * @memberof BlueSkyAnalyticsApiGetPostStats
+	 */
+	readonly bucket?: number;
+}
+
+/**
+ * Request parameters for getTopPostsForAccount operation in BlueSkyAnalyticsApi.
+ * @export
+ * @interface BlueSkyAnalyticsApiGetTopPostsForAccountRequest
+ */
+export interface BlueSkyAnalyticsApiGetTopPostsForAccountRequest {
+	/**
+	 * The network to get stats for. Only BlueSky is supported right now.
+	 * @type {Network}
+	 * @memberof BlueSkyAnalyticsApiGetTopPostsForAccount
+	 */
+	readonly network: Network;
+
+	/**
+	 * The account id to get top posts for. This is the did of the account for BlueSky.
+	 * @type {string}
+	 * @memberof BlueSkyAnalyticsApiGetTopPostsForAccount
+	 */
+	readonly accountId: string;
+
+	/**
+	 * The timeframe to analyze for top posts
+	 * @type {Timeframe}
+	 * @memberof BlueSkyAnalyticsApiGetTopPostsForAccount
+	 */
+	readonly timeframe?: Timeframe;
+
+	/**
+	 * Maximum number of top posts to return
+	 * @type {number}
+	 * @memberof BlueSkyAnalyticsApiGetTopPostsForAccount
+	 */
+	readonly limit?: number;
 }
 
 /**
@@ -335,19 +1538,56 @@ export class BlueSkyAnalyticsApi
 	implements BlueSkyAnalyticsApiInterface
 {
 	/**
-	 * Get growth rate statistics for account. Timeframe, from or to must be provided.
-	 * @summary Growth rate statistics for account
-	 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest} requestParameters Request parameters.
+	 * Create a network account for the authenticated user.
+	 * @summary Create a network account
+	 * @param {BlueSkyAnalyticsApiCreateNetworkAccountRequest} requestParameters Request parameters.
 	 * @param {*} [options] Override http request option.
 	 * @throws {RequiredError}
 	 * @memberof BlueSkyAnalyticsApi
 	 */
-	public getGlobalStatsForAccountAPI(
-		requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountAPIRequest,
+	public createNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiCreateNetworkAccountRequest,
 		options?: RawAxiosRequestConfig,
 	) {
 		return BlueSkyAnalyticsApiFp(this.configuration)
-			.getGlobalStatsForAccountAPI(
+			.createNetworkAccount(
+				requestParameters.createNetworkAccountRequest,
+				options,
+			)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Delete a network account from your GraphTracks account.
+	 * @summary Delete a network account
+	 * @param {BlueSkyAnalyticsApiDeleteNetworkAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public deleteNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiDeleteNetworkAccountRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.deleteNetworkAccount(requestParameters.accountId, options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Get growth rate statistics for account. Timeframe, from or to must be provided.
+	 * @summary Growth rate statistics for account
+	 * @param {BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getGlobalStatsForAccount(
+		requestParameters: BlueSkyAnalyticsApiGetGlobalStatsForAccountRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getGlobalStatsForAccount(
 				requestParameters.network,
 				requestParameters.accountId,
 				requestParameters.metric,
@@ -359,4 +1599,122 @@ export class BlueSkyAnalyticsApi
 			)
 			.then((request) => request(this.axios, this.basePath));
 	}
+
+	/**
+	 * Get details for a specific network account.
+	 * @summary Get a network account
+	 * @param {BlueSkyAnalyticsApiGetNetworkAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getNetworkAccount(
+		requestParameters: BlueSkyAnalyticsApiGetNetworkAccountRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getNetworkAccount(requestParameters.accountId, options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Get all network accounts associated with the authenticated user.
+	 * @summary Get network accounts for current user
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getNetworkAccounts(options?: RawAxiosRequestConfig) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getNetworkAccounts(options)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Get detailed interaction data for a specific post, including user profiles who interacted.
+	 * @summary Get post interactions
+	 * @param {BlueSkyAnalyticsApiGetPostInteractionsRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getPostInteractions(
+		requestParameters: BlueSkyAnalyticsApiGetPostInteractionsRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getPostInteractions(
+				requestParameters.network,
+				requestParameters.accountId,
+				requestParameters.postId,
+				requestParameters.metric,
+				requestParameters.timeframe,
+				requestParameters.from,
+				requestParameters.to,
+				requestParameters.limit,
+				requestParameters.offset,
+				requestParameters.sort,
+				options,
+			)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Get time series statistics for a specific post. Requires metric, timeframe, and from parameters.
+	 * @summary Get post statistics
+	 * @param {BlueSkyAnalyticsApiGetPostStatsRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getPostStats(
+		requestParameters: BlueSkyAnalyticsApiGetPostStatsRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getPostStats(
+				requestParameters.network,
+				requestParameters.accountId,
+				requestParameters.postId,
+				requestParameters.metric,
+				requestParameters.timeframe,
+				requestParameters.from,
+				requestParameters.bucket,
+				options,
+			)
+			.then((request) => request(this.axios, this.basePath));
+	}
+
+	/**
+	 * Get the top performing posts for an account within a specified timeframe.
+	 * @summary Get top posts for an account
+	 * @param {BlueSkyAnalyticsApiGetTopPostsForAccountRequest} requestParameters Request parameters.
+	 * @param {*} [options] Override http request option.
+	 * @throws {RequiredError}
+	 * @memberof BlueSkyAnalyticsApi
+	 */
+	public getTopPostsForAccount(
+		requestParameters: BlueSkyAnalyticsApiGetTopPostsForAccountRequest,
+		options?: RawAxiosRequestConfig,
+	) {
+		return BlueSkyAnalyticsApiFp(this.configuration)
+			.getTopPostsForAccount(
+				requestParameters.network,
+				requestParameters.accountId,
+				requestParameters.timeframe,
+				requestParameters.limit,
+				options,
+			)
+			.then((request) => request(this.axios, this.basePath));
+	}
 }
+
+/**
+ * @export
+ */
+export const GetPostInteractionsSortEnum = {
+	Asc: "asc",
+	Desc: "desc",
+} as const;
+export type GetPostInteractionsSortEnum =
+	(typeof GetPostInteractionsSortEnum)[keyof typeof GetPostInteractionsSortEnum];
