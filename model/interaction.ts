@@ -17,20 +17,26 @@
 /**
  * 
  * @export
- * @interface DataPoint
+ * @interface Interaction
  */
-export interface DataPoint {
+export interface Interaction {
     /**
-     * The timestamp for this data point. UTC timezone.
+     * The timestamp for this interaction. UTC timezone.
      * @type {string}
-     * @memberof DataPoint
+     * @memberof Interaction
      */
     'time': string;
     /**
-     * The numeric value for this data point.
-     * @type {number}
-     * @memberof DataPoint
+     * The user id who performed the interaction
+     * @type {string}
+     * @memberof Interaction
      */
-    'value': number;
+    'id': string;
+    /**
+     * The user profile information
+     * @type {object}
+     * @memberof Interaction
+     */
+    'profile'?: object;
 }
 

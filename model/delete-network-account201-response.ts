@@ -14,5 +14,17 @@
 
 
 
-export * from './api/blue-sky-analytics-api';
+/**
+ * 
+ * @export
+ * @interface DeleteNetworkAccount201Response
+ */
+export interface DeleteNetworkAccount201Response {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteNetworkAccount201Response
+     */
+    'message'?: string;
+}
 

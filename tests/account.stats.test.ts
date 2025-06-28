@@ -5,6 +5,9 @@ import { Metric, Network, Timeframe } from "../model";
 describe("Account Stats Integration Tests", () => {
 	let api: BlueSkyAnalyticsApi;
 	const validAccount = process.env.TEST_DID;
+	if (!validAccount) {
+		throw new Error("TEST_DID env variable is not set");
+	}
 
 	beforeAll(() => {
 		const config = new Configuration({
@@ -30,13 +33,13 @@ describe("Account Stats Integration Tests", () => {
 		from.setUTCDate(from.getUTCDate() - 30);
 
 		try {
-			const response = await api.getGlobalStatsForAccountAPI({
+			const response = await api.getGlobalStatsForAccount({
 				accountId: account,
 				network: network,
 				metric: metrics[0],
 				from: from.toISOString(),
 				timeframe: timeframe,
-				bucket: bucket.toString(),
+				bucket: bucket,
 			});
 
 			expect(response).toBeDefined();
@@ -66,7 +69,7 @@ describe("Account Stats Integration Tests", () => {
 		const metrics = [Metric.Followers];
 
 		await expect(
-			api.getGlobalStatsForAccountAPI({
+			api.getGlobalStatsForAccount({
 				accountId: account,
 				network: network,
 				metric: metrics[0],
@@ -90,12 +93,12 @@ describe("Account Stats Integration Tests", () => {
 
 		for (const metric of metrics) {
 			try {
-				const response = await api.getGlobalStatsForAccountAPI({
+				const response = await api.getGlobalStatsForAccount({
 					accountId: account,
 					network: network,
 					metric: metric,
 					timeframe,
-					bucket: bucket.toString(),
+					bucket: bucket,
 				});
 
 				expect(response).toBeDefined();
@@ -128,13 +131,13 @@ describe("Account Stats Integration Tests", () => {
 
 		for (const timeframe of timeframes) {
 			try {
-				const response = await api.getGlobalStatsForAccountAPI({
+				const response = await api.getGlobalStatsForAccount({
 					accountId: account,
 					network: network,
 					metric: Metric.Followers,
 					from: from.toISOString(),
 					timeframe,
-					bucket: bucket.toString(),
+					bucket: bucket,
 				});
 				expect(response).toBeDefined();
 				expect(response.data).toBeDefined();
