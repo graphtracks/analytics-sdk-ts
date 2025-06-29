@@ -1,5 +1,5 @@
 <script lang="ts">
-  import BlueSkyGraph from "$lib/BlueSkyGraph.svelte";
+import BlueSkyGraph from "$lib/BlueSkyGraph.svelte";
 </script>
 
 <main>

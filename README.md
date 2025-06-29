@@ -94,6 +94,10 @@ Example output:
 ]
 ```
 
+# Examples
+
+Pleas check our [./example]  folder for more detailed examples.
+
 
 ### Documentation for API Endpoints
 
