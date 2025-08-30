@@ -4,7 +4,6 @@
 **TypeScript SDK for Bluesky Social Media Analytics** - analytics client library that enables developers to access detailed Bluesky social network statistics, user engagement metrics, and growth analytics through the GraphTracks API.
 
 
-
 ## Features
 
 * Get stats for a given account by DID 
