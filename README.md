@@ -3,17 +3,23 @@
 
 **TypeScript SDK for Bluesky Social Media Analytics** - analytics client library that enables developers to access detailed Bluesky social network statistics, user engagement metrics, and growth analytics through the GraphTracks API.
 
-This is work in progress. Please contact support@graphtracks.com to get the api key and join our [Discord](https://discord.gg/6ghZTfhW9s)
+
 
 ## Features
 
 * Get stats for a given account by DID 
-* Stats are available for the following metrics:
+* Growth Stats are available for the following metrics:
     * Followers
     * Replies
     * Reposts
     * Likes
-* More detailed metrics coming soon
+* Growth Stats available per post:
+    * replies
+    * reposts 
+    * likes
+* Account interactions API
+* Top posts by engagement API
+
 
 ## Requirements
 
@@ -37,6 +43,13 @@ Module system
 * ES6 module system
 
 It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
+
+
+## Getting started 
+
+To get started, create account on www.graphtracks.com. 
+Create new API key https://www.graphtracks.com/dashboard/developer/apikeys
+
 
 ### Installing
 
