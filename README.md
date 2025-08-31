@@ -51,7 +51,7 @@ Create new API key <https://www.graphtracks.com/dashboard/developer/apikeys>
 
 ### Installing
 
-```
+```bash
 npm install @graphtracks/client --save
 ```
 
@@ -87,8 +87,8 @@ api.getGlobalStatsForAccount({
 
 Run the script:
 
-```
-npx ts-node get-stats.ts did_of_the_account_you_want_to_get_stats_for
+```bash
+npx ts-node get-stats.ts did:plc:z72i7hdynmk6r22z27h6tvur #bsky.app
 ```
 
 Example output:
@@ -105,7 +105,7 @@ Example output:
 ]
 ```
 
-# Examples
+### Examples
 
 Pleas check our [./example]  folder for more detailed examples.
 
