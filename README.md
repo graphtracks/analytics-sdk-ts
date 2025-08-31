@@ -1,58 +1,57 @@
 # Graphtracks client
 
-
 **TypeScript SDK for Bluesky Social Media Analytics** - analytics client library that enables developers to access detailed Bluesky social network statistics, user engagement metrics, and growth analytics through the GraphTracks API.
-
 
 ## Features
 
-* Get stats for a given account by DID 
+* Get stats for a given account by DID
 * Growth Stats are available for the following metrics:
-    * Followers
-    * Replies
-    * Reposts
-    * Likes
+  * Followers
+  * Replies
+  * Reposts
+  * Likes
 * Growth Stats available per post:
-    * replies
-    * reposts 
-    * likes
+  * replies
+  * reposts
+  * likes
 * Account interactions API
 * Top posts by engagement API
-
 
 ## Requirements
 
 * Node.js 22+
 
-This TypeScript/JavaScript client  utilizes [axios](https://github.com/axios/axios). 
+This TypeScript/JavaScript client  utilizes [axios](https://github.com/axios/axios).
 
 Node module can be used in the following environments:
 
 Environment
+
 * Node.js
 * Webpack
 * Browserify
 * Vite
 
 Language level
+
 * ES6
 
 Module system
+
 * CommonJS
 * ES6 module system
 
 It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
 
+## Getting started
 
-## Getting started 
+To get started, create account on <www.graphtracks.com>.
 
-To get started, create account on www.graphtracks.com. 
-Create new API key https://www.graphtracks.com/dashboard/developer/apikeys
-
+Create new API key <https://www.graphtracks.com/dashboard/developer/apikeys>
 
 ### Installing
 
-```
+```bash
 npm install @graphtracks/client --save
 ```
 
@@ -73,14 +72,14 @@ const api = new BlueSkyAnalyticsApi(new Configuration({
 }));
 
 // Get followers stats for a given account
-api.getGlobalStatsForAccountAPI({
+api.getGlobalStatsForAccount({
     network: Network.BlueSky, // Only Bluesky is supported 
     accountId: did, // atproto account did
     metric: Metric.Followers, // Metric to query
     from: '2025-05-01', // Start date in UTC
     timeframe: Timeframe._7d, // relative amount of time since `from` to get metric
     // to: '2025-05-07', // End date in UTC. Cannot be passed together with timeframe
-    bucket: (3600 * 24).toString(), // Interval between datapoints. It is recommended to keep datapoints count low both for UX and performance
+    bucket: 3600 * 24, // Interval between datapoints. It is recommended to keep datapoints count low both for UX and performance
 }).then((res) => {
     console.log(res.data);
 });
@@ -88,13 +87,13 @@ api.getGlobalStatsForAccountAPI({
 
 Run the script:
 
-```
-npx ts-node get-stats.ts did_of_the_account_you_want_to_get_stats_for
+```bash
+npx ts-node get-stats.ts did:plc:z72i7hdynmk6r22z27h6tvur #bsky.app
 ```
 
 Example output:
 
-```
+```json
 [
   { time: '2025-05-01 00:00:00', value: 30898 },
   { time: '2025-05-02 00:00:00', value: 27199 },
@@ -106,14 +105,13 @@ Example output:
 ]
 ```
 
-# Examples
+### Examples
 
 Pleas check our [./example]  folder for more detailed examples.
 
-
 ### Documentation for API Endpoints
 
-All URIs are relative to *https://api.graphtracks.com*
+All URIs are relative to *<https://api.graphtracks.com>*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -126,37 +124,33 @@ Class | Method | HTTP request | Description
 *BlueSkyAnalyticsApi* | [**getPostStats**](docs/BlueSkyAnalyticsApi.md#getpoststats) | **GET** /v1/api/networks/{network}/accounts/{account_id}/posts/{post_id}/stats | Get post statistics
 *BlueSkyAnalyticsApi* | [**getTopPostsForAccount**](docs/BlueSkyAnalyticsApi.md#gettoppostsforaccount) | **GET** /v1/api/networks/{network}/accounts/{account_id}/top-posts | Get top posts for an account
 
-
 ### Documentation For Models
 
- - [CreateNetworkAccountRequest](docs/CreateNetworkAccountRequest.md)
- - [DataPoint](docs/DataPoint.md)
- - [DeleteNetworkAccount201Response](docs/DeleteNetworkAccount201Response.md)
- - [GetNetworkAccount404Response](docs/GetNetworkAccount404Response.md)
- - [Interaction](docs/Interaction.md)
- - [Metric](docs/Metric.md)
- - [Network](docs/Network.md)
- - [NetworkAccount](docs/NetworkAccount.md)
- - [Post](docs/Post.md)
- - [PostData](docs/PostData.md)
- - [PostsInner](docs/PostsInner.md)
- - [Timeframe](docs/Timeframe.md)
-
+* [CreateNetworkAccountRequest](docs/CreateNetworkAccountRequest.md)
+* [DataPoint](docs/DataPoint.md)
+* [DeleteNetworkAccount201Response](docs/DeleteNetworkAccount201Response.md)
+* [GetNetworkAccount404Response](docs/GetNetworkAccount404Response.md)
+* [Interaction](docs/Interaction.md)
+* [Metric](docs/Metric.md)
+* [Network](docs/Network.md)
+* [NetworkAccount](docs/NetworkAccount.md)
+* [Post](docs/Post.md)
+* [PostData](docs/PostData.md)
+* [PostsInner](docs/PostsInner.md)
+* [Timeframe](docs/Timeframe.md)
 
 <a id="documentation-for-authorization"></a>
-## Documentation For Authorization
 
+## Documentation For Authorization
 
 Authentication schemes defined for the API:
 <a id="apiKeyAuth"></a>
+
 ### apiKeyAuth
 
-- **Type**: API key
-- **API key parameter name**: X-API-Key
-- **Location**: HTTP header
-
-
-
+* **Type**: API key
+* **API key parameter name**: X-API-Key
+* **Location**: HTTP header
 
 > [!WARNING]
 > This project, `analytics-sdk-ts`, is an independent, open-source software development kit designed to interact with Graphtracks API. It is not affiliated with, endorsed by, or sponsored by Bluesky PBC or any of its subsidiaries.
