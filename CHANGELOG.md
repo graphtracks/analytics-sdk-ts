@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.2.1...v1.2.2) (2025-08-31)
+
+
+### Bug Fixes
+
+* docs ([#11](https://github.com/graphtracks/analytics-sdk-ts/issues/11)) ([db9aa4f](https://github.com/graphtracks/analytics-sdk-ts/commit/db9aa4f81609e14cb3a10b102150701b3abcf8dc))
+
 ## [1.2.1](https://github.com/graphtracks/analytics-sdk-ts/compare/v1.2.0...v1.2.1) (2025-08-30)
 
 
